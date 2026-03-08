@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  description: 'API para o Tech Challenge da Fase 2 - Pós Tech.
+  description: 'API para o Tech Challenge da Fase 3 - Pós Tech.
 
 
-Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, restaurantes e  seus cardápios.'
+Este serviço gerencia o cadastro de usuários, tipos de usuários do sistema, restaurantes, seus cardápios e pedidos.'
   title: ChefManagerApi
-  version: 2.0.0
+  version: 3.0.0
 paths:
   /restaurantes/{id}/itens-cardapio:
     get:
@@ -420,6 +420,59 @@ paths:
       summary: Atualiza um usuário existente
       tags:
       - Usuario
+  /pedidos:
+    post:
+      operationId: criarPedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoResponse'
+          description: Pedido criado com sucesso
+      summary: Cadastra um novo pedido
+      tags:
+      - Pedido
+  /pedidos/{id}:
+    get:
+      operationId: buscarPedidoPorId
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoResponse'
+          description: Pedido encontrado
+        '404':
+          description: Pedido não encontrado
+      summary: Consulta pedido por ID
+      tags:
+      - Pedido
+  /pedidos/do-usuario:
+    get:
+      operationId: buscarPedidosPorUsuarioId
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PedidoResponse'
+          description: Lista de pedidos do usuário retornada com sucesso
+        '204':
+          description: Nenhum pedido encontrado para o usuário
+      summary: Lista pedidos de um usuário
+      tags:
+      - Pedido
   /usuarios/{id}/senha:
     patch:
       operationId: alterarSenha
@@ -460,6 +513,8 @@ tags:
   name: Restaurante
 - description: Gerenciamento de itens de cardápio
   name: ItemCardapio
+- description: Gerenciamento de pedidos
+  name: Pedido
 components:
   parameters:
     IdParam:
@@ -712,6 +767,83 @@ components:
       required:
       - senhaAtual
       - novaSenha
+    PedidoRequest:
+      type: object
+      properties:
+        restauranteId:
+          type: string
+          format: uuid
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPedidoRequest'
+          minItems: 1
+      required:
+      - restauranteId
+      - itens
+    ItemPedidoRequest:
+      type: object
+      properties:
+        itemCardapioId:
+          type: string
+          format: uuid
+        descricao:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: integer
+          minimum: 1
+      required:
+      - itemCardapioId
+      - descricao
+      - preco
+      - quantidade
+    PedidoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        restauranteId:
+          type: string
+          format: uuid
+        dataPedido:
+          type: string
+          format: date-time
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPedidoResponse'
+      required:
+      - id
+      - restauranteId
+      - dataPedido
+      - itens
+    ItemPedidoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        itemCardapioId:
+          type: string
+          format: uuid
+        pedidoId:
+          type: string
+          format: uuid
+        descricao:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: integer
+      required:
+      - id
+      - pedidoId
+      - descricao
+      - preco
+      - quantidade
     AtualizarUsuarioRequest:
       type: object
       properties:

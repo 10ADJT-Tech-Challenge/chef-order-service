@@ -4,8 +4,11 @@ package com.adjt.chefmanagerapi.infrastructure.config;
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGateway;
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGatewayImpl;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.ItemCardapioRepositoryGateway;
+import com.adjt.chefmanagerapi.core.gateways.interfaces.PedidoRepositoryGateway;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.RestauranteRepositoryGateway;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.UsuarioRepositoryGateway;
+import com.adjt.chefmanagerapi.core.gateways.pedido.PedidoGateway;
+import com.adjt.chefmanagerapi.core.gateways.pedido.PedidoGatewayImpl;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayImpl;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayMapper;
@@ -71,4 +74,9 @@ public class GatewaysConfig {
     // public UsuarioGatewayMapper usuarioGatewayMapper() {
     //     return new UsuarioGatewayMapper();
     // }
+
+    @Bean
+    public PedidoGateway pedidoGateway(PedidoRepositoryGateway repo) {
+        return new PedidoGatewayImpl(repo);
+    }
 }
