@@ -19,7 +19,9 @@ public final class PedidoGatewayMapper {
                 pedido.getDataPedido(),
                 pedido.getItens().stream()
                         .map(ItemPedidoGatewayMapper::toDto)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                pedido.getValorTotal(),
+                pedido.getStatusPagamento()
         );
     }
 
@@ -33,7 +35,8 @@ public final class PedidoGatewayMapper {
                 dto.dataPedido(),
                 dto.itens().stream()
                         .map(ItemPedidoGatewayMapper::toDomain)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                dto.statusPagamento()
         );
     }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,4 +31,9 @@ public class PedidoEntity {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ItemPedidoEntity> itens;
 
+    private BigDecimal valorTotal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_pagamento")
+    private StatusPagamentoEnum statusPagamento;
 }

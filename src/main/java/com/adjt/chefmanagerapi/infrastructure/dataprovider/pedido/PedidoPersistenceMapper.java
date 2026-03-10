@@ -24,6 +24,8 @@ public class PedidoPersistenceMapper {
         pedido.setItens(dto.itens().stream()
                 .map(itemDto -> itemPedidoPersistenceMapper.toEntity(itemDto, pedido))
                 .collect(Collectors.toList()));
+        pedido.setValorTotal(dto.valorTotal());
+        pedido.setStatusPagamento(dto.statusPagamento());
         return pedido;
     }
 
@@ -35,7 +37,9 @@ public class PedidoPersistenceMapper {
                 entity.getDataPedido(),
                 entity.getItens().stream()
                         .map(itemPedidoPersistenceMapper::toDto)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                entity.getValorTotal(),
+                entity.getStatusPagamento()
         );
     }
 }

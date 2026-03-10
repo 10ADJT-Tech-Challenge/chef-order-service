@@ -148,9 +148,13 @@ components:
           type: number
         quantidade:
           type: integer
+        valorTotal:
+          type: number
       required:
       - id
       - pedidoId
+      - itemCardapioId
       - descricao
       - preco
       - quantidade
+      - valorTotal

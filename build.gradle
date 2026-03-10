@@ -57,6 +57,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'io.rest-assured:rest-assured:6.0.0'
 	testImplementation("org.hamcrest:hamcrest:3.0")
+
+	// 6. Kafka
+	implementation 'org.springframework.kafka:spring-kafka'
 }
 
 // Configuração da Geração Automática

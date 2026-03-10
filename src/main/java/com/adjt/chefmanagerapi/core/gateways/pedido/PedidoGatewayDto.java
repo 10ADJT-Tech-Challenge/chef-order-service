@@ -1,5 +1,8 @@
 package com.adjt.chefmanagerapi.core.gateways.pedido;
 
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.pedido.StatusPagamentoEnum;
+
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -9,5 +12,7 @@ public record PedidoGatewayDto(
         UUID restauranteId,
         UUID usuarioId,
         OffsetDateTime dataPedido,
-        List<ItemPedidoGatewayDto>itens
+        List<ItemPedidoGatewayDto>itens,
+        BigDecimal valorTotal,
+        StatusPagamentoEnum statusPagamento
 ) { }

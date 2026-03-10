@@ -1,11 +1,14 @@
 package com.adjt.chefmanagerapi.core.usecases.pedido.cadastrar;
 
 import com.adjt.chefmanagerapi.core.domain.entities.pedido.ItemPedido;
-import org.springframework.stereotype.Service;
 import com.adjt.chefmanagerapi.core.domain.entities.pedido.Pedido;
+import com.adjt.chefmanagerapi.core.gateways.interfaces.PedidoEventPublisher;
 import com.adjt.chefmanagerapi.core.gateways.pedido.PedidoGateway;
 import com.adjt.chefmanagerapi.core.usecases.pedido.PedidoMapper;
 import com.adjt.chefmanagerapi.core.usecases.pedido.PedidoOutput;
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.pedido.StatusPagamentoEnum;
+import com.adjt.chefmanagerapi.infrastructure.messaging.dto.EventoPedidoCriadoMapper;
+import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,10 +20,12 @@ public class CadastrarPedidoUseCase implements CadastrarPedido {
 
     private final PedidoGateway pedidoGateway;
     private final PedidoMapper pedidoMapper;
+    private final PedidoEventPublisher eventPublisher;
 
-    public CadastrarPedidoUseCase(PedidoGateway pedidoGateway, PedidoMapper pedidoMapper) {
+    public CadastrarPedidoUseCase(PedidoGateway pedidoGateway, PedidoMapper pedidoMapper, PedidoEventPublisher eventPublisher) {
         this.pedidoGateway = pedidoGateway;
         this.pedidoMapper = pedidoMapper;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -37,9 +42,14 @@ public class CadastrarPedidoUseCase implements CadastrarPedido {
                 input.restauranteId(),
                 input.usuarioId(),
                 dataPedido,
-                itens
+                itens,
+                StatusPagamentoEnum.PENDENTE
         );
-        var salvo = pedidoGateway.salvar(pedido);
-        return pedidoMapper.toOutput(salvo);
+        var pedidoSalvo = pedidoGateway.salvar(pedido);
+
+        var eventoCriadoMessage = EventoPedidoCriadoMapper.toDto(pedidoSalvo);
+        eventPublisher.publicarPedidoCriado(eventoCriadoMessage);
+
+        return pedidoMapper.toOutput(pedidoSalvo);
     }
 }
