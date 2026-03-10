@@ -26,7 +26,8 @@ public class KafkaPagamentoEventConsumer implements PagamentoEventConsumer {
         atualizarPedido.executar(EventoPagamentoPendenteMessageMapper.toInput(input));
     }
 
-    @KafkaListener(topics = "pagamento.aprovado", groupId = "pagamento-service")
+    @KafkaListener(topics = "pagamento.aprovado", groupId = "pagamento-service",
+            containerFactory = "aprovadoKafkaListenerContainerFactory")
     public void listenPagamentoAprovado(EventoPagamentoAprovadoMessageInput input, Acknowledgment ack) {
         try {
             notificaPagamentoAprovado(input);
@@ -36,7 +37,8 @@ public class KafkaPagamentoEventConsumer implements PagamentoEventConsumer {
         }
     }
 
-    @KafkaListener(topics = "pagamento.pendente", groupId = "pagamento-service")
+    @KafkaListener(topics = "pagamento.pendente", groupId = "pagamento-service",
+            containerFactory = "pendenteKafkaListenerContainerFactory")
     public void listenPagamentoPendente(EventoPagamentoPendenteMessageInput input, Acknowledgment ack) {
         try {
             notificaPagamentoPendente(input);
