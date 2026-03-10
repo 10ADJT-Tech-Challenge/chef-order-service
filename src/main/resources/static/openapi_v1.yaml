@@ -62,7 +62,7 @@ paths:
       - Pedido
 servers:
 - description: Servidor local de desenvolvimento
-  url: http://localhost:8080/api/v1
+  url: http://localhost:8081/api/v1
 tags:
 - description: Gerenciamento de pedidos
   name: Pedido

@@ -59,7 +59,7 @@ docker-compose up --build
 ## 📚 Documentação da API
 
 A documentação completa da API está disponível através do Swagger UI:
-`http://localhost:8080/api/v1/swagger-ui.html`
+`http://localhost:8081/api/v1/swagger-ui.html`
 
 ### 👥 Usuários
 - **POST** `/api/v1/usuarios` - Cadastro de usuário
@@ -92,7 +92,7 @@ A documentação completa da API está disponível através do Swagger UI:
 - **PUT** `/api/v1/itens-cardapio/{id}` - Atualiza item
 - **DELETE** `/api/v1/itens-cardapio/{id}` - Remove item
 
-**Base URL**: `http://localhost:8080/api/v1`
+**Base URL**: `http://localhost:8081/api/v1`
 
 **Nota**: Todos os IDs são no formato UUID.
 
