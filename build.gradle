@@ -68,8 +68,8 @@ openApiGenerate {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/static/openapi_v1.yaml".toString() // Caminho do arquivo da documentação
 	outputDir = layout.buildDirectory.dir("generated-sources/openapi").get().asFile.path
-	apiPackage = "com.adjt.chefmanagerapi"           // Onde ficam as Interfaces (Controllers)
-	modelPackage = "com.adjt.chefmanagerapi.model"   // Onde ficam os DTOs (Request/Response)
+	apiPackage = "com.adjt.cheforderapi"           // Onde ficam as Interfaces (Controllers)
+	modelPackage = "com.adjt.cheforderapi.model"   // Onde ficam os DTOs (Request/Response)
 	configOptions = [
 			interfaceOnly: "true",        // Gera apenas a interface, você implementa a lógica
 			useJakartaEe: "true",
@@ -111,7 +111,7 @@ test {
 sonar {
 	properties {
 		property "sonar.projectName", rootProject.name
-		property "sonar.projectKey", "chef-manager-api"
+		property "sonar.projectKey", "chef-order-api"
 		property "sonar.host.url", "http://localhost:9000" // URL do seu SonarQube
 
 		// Caminho para o relatório do JaCoCo
