@@ -41,8 +41,8 @@ src/
 
 #### 1. Clone o repositório:
 ```bash
-git clone git@github.com:10ADJT-Tech-Challenge/chef-manager-api.git
-cd chef-manager-api
+git clone git@github.com:10ADJT-Tech-Challenge/chef-order-api.git
+cd chef-order-api
 ```
 #### 2. Configure as variáveis de ambiente:
 ```bash
@@ -110,8 +110,8 @@ Para gerar relatório de cobertura de testes:
 
 ```bash 
 ./gradlew test jacocoTestReport sonar `
-  "-Dsonar.projectKey=chef-manager-api" `
-  "-Dsonar.projectName=chef-manager-api" `
+  "-Dsonar.projectKey=chef-order-api" `
+  "-Dsonar.projectName=chef-order-api" `
   "-Dsonar.host.url=http://localhost:9000" `
   "-Dsonar.token=sqp_49a83fe752449b518c0413f2a5d482373f198baa"
 

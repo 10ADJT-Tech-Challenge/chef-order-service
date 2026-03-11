@@ -111,7 +111,7 @@ test {
 sonar {
 	properties {
 		property "sonar.projectName", rootProject.name
-		property "sonar.projectKey", "chef-manager-api"
+		property "sonar.projectKey", "chef-order-api"
 		property "sonar.host.url", "http://localhost:9000" // URL do seu SonarQube
 
 		// Caminho para o relatório do JaCoCo
