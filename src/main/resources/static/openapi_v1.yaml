@@ -67,6 +67,11 @@ tags:
 - description: Gerenciamento de pedidos
   name: Pedido
 components:
+  securitySchemes:
+    SecurityConfig:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   parameters:
     IdParam:
       description: Identificador único do recurso
@@ -158,3 +163,5 @@ components:
       - preco
       - quantidade
       - valorTotal
+security:
+  - SecurityConfig: []

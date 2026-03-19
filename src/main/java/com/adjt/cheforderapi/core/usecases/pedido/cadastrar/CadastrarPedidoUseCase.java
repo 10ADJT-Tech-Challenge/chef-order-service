@@ -47,8 +47,8 @@ public class CadastrarPedidoUseCase implements CadastrarPedido {
         );
         var pedidoSalvo = pedidoGateway.salvar(pedido);
 
-        var eventoCriadoMessage = EventoPedidoCriadoMapper.toDto(pedidoSalvo);
-        eventPublisher.publicarPedidoCriado(eventoCriadoMessage);
+//        var eventoCriadoMessage = EventoPedidoCriadoMapper.toDto(pedidoSalvo);
+  //      eventPublisher.publicarPedidoCriado(eventoCriadoMessage);
 
         return pedidoMapper.toOutput(pedidoSalvo);
     }

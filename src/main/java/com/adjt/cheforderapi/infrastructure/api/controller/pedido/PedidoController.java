@@ -11,7 +11,10 @@ import com.adjt.cheforderapi.model.PedidoRequest;
 import com.adjt.cheforderapi.model.PedidoResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.Jwt;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +45,12 @@ public class PedidoController implements PedidoApi {
     public ResponseEntity<List<PedidoResponse>> buscarPedidosPorUsuarioId() {
         List<PedidoOutput> outputs;
 
-        var usuarioId = UUID.randomUUID();
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioId = UUID.fromString(jwt.getSubject());
         outputs = buscarPedidosPorUsuarioId.executar(usuarioId);
 
         var body = outputs.stream().map(PedidoApiMapper::toResponse).toList();
@@ -52,6 +60,14 @@ public class PedidoController implements PedidoApi {
 
     @Override
     public ResponseEntity<PedidoResponse> criarPedido(PedidoRequest pedidoRequest) {
+
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioId = UUID.fromString(jwt.getSubject());
+
         var itens = pedidoRequest.getItens().stream()
                 .map(item -> new CadastrarItemPedidoInput(
                         item.getItemCardapioId(),
@@ -59,7 +75,7 @@ public class PedidoController implements PedidoApi {
                         item.getPreco(),
                         item.getQuantidade()))
                 .collect(Collectors.toList());
-        UUID usuarioId = UUID.randomUUID();
+
 
         CadastrarPedidoInput input = new CadastrarPedidoInput(
                 pedidoRequest.getRestauranteId(),
