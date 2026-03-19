@@ -31,10 +31,8 @@ logging:
     org.springframework: INFO
     org.hibernate.SQL: INFO
     org.flywaydb: INFO
-    org.springframework.security: TRACE
-    org.springframework.security.oauth2: TRACE
 
-
+springdoc:
   api-docs:
     path: /v3/api-docs
     enabled: true
@@ -44,6 +42,7 @@ logging:
     disable-swagger-default-url: true
   cache:
     disabled: true
+
 security:
   jwt:
     public-key: classpath:keys/public.pem

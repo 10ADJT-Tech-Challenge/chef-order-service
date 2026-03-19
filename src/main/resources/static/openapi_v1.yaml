@@ -163,5 +163,6 @@ components:
       - preco
       - quantidade
       - valorTotal
+
 security:
   - SecurityConfig: []
