@@ -1,22 +1,13 @@
-package com.adjt.cheforderapi.infrastructure.security;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-
-import java.security.interfaces.RSAPublicKey;
-
 @Configuration
 public class SecurityConfig {
 
     private final RSAPublicKey publicKey;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
-    public SecurityConfig(RSAPublicKey publicKey) {
+    public SecurityConfig(
+            RSAPublicKey publicKey,
+            JwtAuthenticationEntryPoint authenticationEntryPoint
+    ) {
         this.publicKey = publicKey;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
@@ -26,14 +17,6 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // endpoints públicos (relativos ao context-path /api/v1)
-                        .requestMatchers(
-                                "/openapi_v1.yaml",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        // o resto exige JWT
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth
@@ -46,8 +29,6 @@ public class SecurityConfig {
 
     @Bean
     JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder
-                .withPublicKey(publicKey)
-                .build();
+        return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 }
