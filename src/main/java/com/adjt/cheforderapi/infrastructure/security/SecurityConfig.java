@@ -24,13 +24,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // endpoints públicos (se existirem)
+                        // endpoints públicos (relativos ao context-path /api/v1)
                         .requestMatchers(
+                                "/openapi_v1.yaml",
+                                "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/swagger-ui.html"
                         ).permitAll()
-
-                        // TODO o resto exige JWT
+                        // o resto exige JWT
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth
