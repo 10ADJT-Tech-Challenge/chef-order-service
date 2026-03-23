@@ -14,9 +14,11 @@ import java.security.interfaces.RSAPublicKey;
 public class SecurityConfig {
 
     private final RSAPublicKey publicKey;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfig(RSAPublicKey publicKey) {
         this.publicKey = publicKey;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
