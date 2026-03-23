@@ -14,7 +14,7 @@ import java.security.interfaces.RSAPublicKey;
 public class SecurityConfig {
 
     private final RSAPublicKey publicKey;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfig(RSAPublicKey publicKey) {
         this.publicKey = publicKey;
