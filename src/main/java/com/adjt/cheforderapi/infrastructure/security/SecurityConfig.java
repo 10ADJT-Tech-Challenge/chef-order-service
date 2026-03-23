@@ -14,7 +14,6 @@ public class SecurityConfig {
 
     private final RSAPublicKey publicKey;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private final JwtAccessDeniedHandler accessDeniedHandler;
 
     public SecurityConfig(
             RSAPublicKey publicKey,
