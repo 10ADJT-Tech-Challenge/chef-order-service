@@ -147,9 +147,6 @@ components:
         itemCardapioId:
           type: string
           format: uuid
-        pedidoId:
-          type: string
-          format: uuid
         descricao:
           type: string
         preco:

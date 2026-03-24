@@ -40,7 +40,7 @@ public class Pedido {
         }
 
         return itens.stream()
-                .map(item -> item.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .map(ItemPedido::getValorTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

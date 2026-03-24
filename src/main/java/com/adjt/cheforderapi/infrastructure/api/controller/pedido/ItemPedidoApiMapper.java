@@ -11,6 +11,8 @@ public class ItemPedidoApiMapper {
         dto.setDescricao(domain.getDescricao());
         dto.setPreco(domain.getPreco());
         dto.setQuantidade(domain.getQuantidade());
+        dto.setValorTotal(domain.getValorTotal());
+        dto.itemCardapioId(domain.getItemCardapioId());
         return dto;
     }
 }
