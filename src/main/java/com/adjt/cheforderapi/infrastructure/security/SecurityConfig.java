@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import java.security.interfaces.RSAPublicKey;
+
 @Configuration
 public class SecurityConfig {
 
@@ -28,6 +29,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // endpoints públicos (relativos ao context-path /api/v1)
+                        .requestMatchers(
+                                "/openapi_v1.yaml",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        // o resto exige JWT
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth

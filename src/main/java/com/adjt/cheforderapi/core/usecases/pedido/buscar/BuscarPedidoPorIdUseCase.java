@@ -1,14 +1,12 @@
 package com.adjt.cheforderapi.core.usecases.pedido.buscar;
 
 import com.adjt.cheforderapi.core.domain.entities.pedido.Pedido;
+import com.adjt.cheforderapi.core.exceptions.PedidoNaoEncontradoException;
 import com.adjt.cheforderapi.core.gateways.pedido.PedidoGateway;
 import com.adjt.cheforderapi.core.usecases.pedido.PedidoMapper;
 import com.adjt.cheforderapi.core.usecases.pedido.PedidoOutput;
+import com.adjt.cheforderapi.core.exceptions.PedidoNaoPertenceAoUsuarioException;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class BuscarPedidoPorIdUseCase implements BuscarPedidoPorId {
@@ -22,11 +20,12 @@ public class BuscarPedidoPorIdUseCase implements BuscarPedidoPorId {
     }
 
     @Override
-    public PedidoOutput executar(UUID pedidoId) {
-        Optional<Pedido> opt = pedidoGateway.buscarPorId(pedidoId);
-        if (opt.isEmpty()) {
-            throw new NoSuchElementException("Nenhum pedido encontrado com o id: " + pedidoId);
+    public PedidoOutput executar(BuscarPedidoPorIdInput input) {
+        Pedido opt = pedidoGateway.buscarPorId(input.getPedidoId()).orElseThrow(() -> new PedidoNaoEncontradoException());
+
+        if (!opt.getUsuarioId().equals(input.getUsuarioId())) {
+            throw new PedidoNaoPertenceAoUsuarioException();
         }
-        return pedidoMapper.toOutput(opt.get());
+        return pedidoMapper.toOutput(opt);
     }
 }

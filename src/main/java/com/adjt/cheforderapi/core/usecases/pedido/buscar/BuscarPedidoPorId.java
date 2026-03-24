@@ -6,5 +6,5 @@ import com.adjt.cheforderapi.core.usecases.pedido.PedidoOutput;
 
 import java.util.UUID;
 
-public interface BuscarPedidoPorId extends UseCase<UUID, PedidoOutput> {
+public interface BuscarPedidoPorId extends UseCase<BuscarPedidoPorIdInput, PedidoOutput> {
 }

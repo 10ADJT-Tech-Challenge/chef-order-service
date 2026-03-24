@@ -3,6 +3,7 @@ package com.adjt.cheforderapi.infrastructure.api.controller.pedido;
 import com.adjt.cheforderapi.PedidoApi;
 import com.adjt.cheforderapi.core.usecases.pedido.PedidoOutput;
 import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidoPorId;
+import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidoPorIdInput;
 import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidosPorUsuarioId;
 import com.adjt.cheforderapi.core.usecases.pedido.cadastrar.CadastrarItemPedidoInput;
 import com.adjt.cheforderapi.core.usecases.pedido.cadastrar.CadastrarPedido;
@@ -37,7 +38,17 @@ public class PedidoController implements PedidoApi {
 
     @Override
     public ResponseEntity<PedidoResponse> buscarPedidoPorId(UUID id) {
-        PedidoOutput pedido = buscarPedidoPorId.executar(id);
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioIdLogado = UUID.fromString(jwt.getSubject());
+
+        BuscarPedidoPorIdInput input = new BuscarPedidoPorIdInput(id, usuarioIdLogado);
+
+        PedidoOutput pedido = buscarPedidoPorId.executar(input);
+
         return ResponseEntity.ok(PedidoApiMapper.toResponse(pedido));
     }
 
