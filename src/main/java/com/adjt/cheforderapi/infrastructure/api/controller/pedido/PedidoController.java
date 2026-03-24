@@ -42,7 +42,7 @@ public class PedidoController implements PedidoApi {
     }
 
     @Override
-    public ResponseEntity<List<PedidoResponse>> buscarPedidosPorUsuarioId() {
+    public ResponseEntity<List<PedidoResponse>> buscarPedidosPorUsuarioLogado() {
         List<PedidoOutput> outputs;
 
         Jwt jwt = (Jwt) SecurityContextHolder

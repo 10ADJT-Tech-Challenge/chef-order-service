@@ -45,7 +45,7 @@ paths:
       - Pedido
   /pedidos/do-usuario:
     get:
-      operationId: buscarPedidosPorUsuarioId
+      operationId: buscarPedidosPorUsuarioLogado
       responses:
         '200':
           content:
@@ -54,7 +54,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PedidoResponse'
-          description: Lista de pedidos do usuário retornada com sucesso
+          description: Lista de pedidos do usuário retornada com sucesso a partir do token
         '204':
           description: Nenhum pedido encontrado para o usuário
       summary: Lista pedidos de um usuário
@@ -126,6 +126,9 @@ components:
         dataPedido:
           type: string
           format: date-time
+        statusPagamento:
+          type: string
+          format: string
         itens:
           type: array
           items:
