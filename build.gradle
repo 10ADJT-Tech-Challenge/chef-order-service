@@ -51,6 +51,8 @@ dependencies {
 
 	// 4. Segurança
 	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// 5. Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -60,6 +62,7 @@ dependencies {
 
 	// 6. Kafka
 	implementation 'org.springframework.kafka:spring-kafka'
+
 }
 
 // Configuração da Geração Automática

@@ -10,6 +10,8 @@ import java.util.UUID;
 public class PedidoOutput {
     private UUID id;
     private UUID restauranteId;
+    private UUID usuarioId;
+    private String statusPagamento;
     private OffsetDateTime dataPedido;
     private List<ItemPedidoOutput> itens;
 }

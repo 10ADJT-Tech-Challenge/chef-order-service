@@ -28,4 +28,8 @@ public class ItemPedido {
     public ItemPedido(UUID pedidoId, UUID itemCardapioId, String descricao, BigDecimal preco, Integer quantidade) {
         this(UUID.randomUUID(), pedidoId, itemCardapioId, descricao, preco, quantidade);
     }
+
+    public BigDecimal getValorTotal() {
+        return preco.multiply(BigDecimal.valueOf(quantidade));
+    }
 }

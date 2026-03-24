@@ -12,4 +12,5 @@ public class ItemPedidoOutput {
     private String descricao;
     private BigDecimal preco;
     private Integer quantidade;
+    private BigDecimal valorTotal;
 }

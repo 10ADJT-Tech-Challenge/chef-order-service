@@ -42,3 +42,7 @@ springdoc:
     disable-swagger-default-url: true
   cache:
     disabled: true
+
+security:
+  jwt:
+    public-key: classpath:keys/public.pem

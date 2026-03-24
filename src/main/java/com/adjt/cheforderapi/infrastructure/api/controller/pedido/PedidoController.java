@@ -3,6 +3,7 @@ package com.adjt.cheforderapi.infrastructure.api.controller.pedido;
 import com.adjt.cheforderapi.PedidoApi;
 import com.adjt.cheforderapi.core.usecases.pedido.PedidoOutput;
 import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidoPorId;
+import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidoPorIdInput;
 import com.adjt.cheforderapi.core.usecases.pedido.buscar.BuscarPedidosPorUsuarioId;
 import com.adjt.cheforderapi.core.usecases.pedido.cadastrar.CadastrarItemPedidoInput;
 import com.adjt.cheforderapi.core.usecases.pedido.cadastrar.CadastrarPedido;
@@ -11,7 +12,10 @@ import com.adjt.cheforderapi.model.PedidoRequest;
 import com.adjt.cheforderapi.model.PedidoResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.Jwt;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -34,15 +38,30 @@ public class PedidoController implements PedidoApi {
 
     @Override
     public ResponseEntity<PedidoResponse> buscarPedidoPorId(UUID id) {
-        PedidoOutput pedido = buscarPedidoPorId.executar(id);
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioIdLogado = UUID.fromString(jwt.getSubject());
+
+        BuscarPedidoPorIdInput input = new BuscarPedidoPorIdInput(id, usuarioIdLogado);
+
+        PedidoOutput pedido = buscarPedidoPorId.executar(input);
+
         return ResponseEntity.ok(PedidoApiMapper.toResponse(pedido));
     }
 
     @Override
-    public ResponseEntity<List<PedidoResponse>> buscarPedidosPorUsuarioId() {
+    public ResponseEntity<List<PedidoResponse>> buscarPedidosPorUsuarioLogado() {
         List<PedidoOutput> outputs;
 
-        var usuarioId = UUID.randomUUID();
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioId = UUID.fromString(jwt.getSubject());
         outputs = buscarPedidosPorUsuarioId.executar(usuarioId);
 
         var body = outputs.stream().map(PedidoApiMapper::toResponse).toList();
@@ -52,6 +71,14 @@ public class PedidoController implements PedidoApi {
 
     @Override
     public ResponseEntity<PedidoResponse> criarPedido(PedidoRequest pedidoRequest) {
+
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UUID usuarioId = UUID.fromString(jwt.getSubject());
+
         var itens = pedidoRequest.getItens().stream()
                 .map(item -> new CadastrarItemPedidoInput(
                         item.getItemCardapioId(),
@@ -59,7 +86,7 @@ public class PedidoController implements PedidoApi {
                         item.getPreco(),
                         item.getQuantidade()))
                 .collect(Collectors.toList());
-        UUID usuarioId = UUID.randomUUID();
+
 
         CadastrarPedidoInput input = new CadastrarPedidoInput(
                 pedidoRequest.getRestauranteId(),

@@ -12,6 +12,7 @@ public class PedidoApiMapper {
         dto.setId(domain.getId());
         dto.setRestauranteId(domain.getRestauranteId());
         dto.setDataPedido(domain.getDataPedido());
+        dto.setStatusPagamento(domain.getStatusPagamento());
         dto.setItens(domain.getItens().stream()
                 .map(ItemPedidoApiMapper::toResponse)
                 .collect(Collectors.toList()));

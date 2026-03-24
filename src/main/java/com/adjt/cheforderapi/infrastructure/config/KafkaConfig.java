@@ -14,8 +14,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ContainerProperties;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer;
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class KafkaConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JacksonJsonSerializer.class);
         return props;
     }
 
@@ -63,8 +63,8 @@ public class KafkaConfig {
 
     @Bean
     public ConsumerFactory<String, EventoPagamentoAprovadoMessageInput> aprovadoConsumerFactory() {
-        JsonDeserializer<EventoPagamentoAprovadoMessageInput> deserializer =
-                new JsonDeserializer<>(EventoPagamentoAprovadoMessageInput.class);
+        JacksonJsonDeserializer<EventoPagamentoAprovadoMessageInput> deserializer =
+                new JacksonJsonDeserializer<>(EventoPagamentoAprovadoMessageInput.class);
         deserializer.addTrustedPackages("*");
         deserializer.setUseTypeHeaders(false);
         return new DefaultKafkaConsumerFactory<>(baseConsumerConfigs(), new StringDeserializer(), deserializer);
@@ -77,8 +77,8 @@ public class KafkaConfig {
 
     @Bean
     public ConsumerFactory<String, EventoPagamentoPendenteMessageInput> pendenteConsumerFactory() {
-        JsonDeserializer<EventoPagamentoPendenteMessageInput> deserializer =
-                new JsonDeserializer<>(EventoPagamentoPendenteMessageInput.class);
+        JacksonJsonDeserializer<EventoPagamentoPendenteMessageInput> deserializer =
+                new JacksonJsonDeserializer<>(EventoPagamentoPendenteMessageInput.class);
         deserializer.addTrustedPackages("*");
         deserializer.setUseTypeHeaders(false);
         return new DefaultKafkaConsumerFactory<>(baseConsumerConfigs(), new StringDeserializer(), deserializer);
