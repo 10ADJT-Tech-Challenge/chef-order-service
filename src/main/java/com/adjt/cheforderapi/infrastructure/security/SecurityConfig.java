@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import java.security.interfaces.RSAPublicKey;
-
 @Configuration
 public class SecurityConfig {
 
